@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Editar' : 'Novo' }} Autor</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome" maxlength="40" autocomplete="off">
+      <mat-error>{{ getErrorMessage('nome') }}</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()" [disabled]="loading">Cancelar</button>
+  <button mat-raised-button color="primary"
+          (click)="salvar()"
+          [disabled]="loading || form.invalid">
+    <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+    {{ isEditMode ? 'Atualizar' : 'Salvar' }}
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: cadastro_livros_db
+    environment:
+      POSTGRES_DB: cadastro_livros_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      PGDATA: /data/postgres
+    volumes:
+      - postgres_data:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - livros_network
+    restart: unless-stopped
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: cadastro_livros_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - livros_network
+    restart: unless-stopped
+
+  # Laravel API
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cadastro_livros_api
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: cadastro_livros_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres123
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      APP_ENV: local
+      APP_DEBUG: "true"
+    volumes:
+      - ./backend:/var/www/html
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - livros_network
+    restart: unless-stopped
+
+  # Angular Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cadastro_livros_frontend
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm start
+    networks:
+      - livros_network
+    restart: unless-stopped
+
+  # pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: cadastro_livros_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@cadastrolivros.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    networks:
+      - livros_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  livros_network:
+    driver: bridge

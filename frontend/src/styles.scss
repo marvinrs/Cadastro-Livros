@@ -1,0 +1,68 @@
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+// Angular Material
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+// Fontes
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+// Reset e estilos globais
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// Scrollbar personalizada
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+// Classes utilitárias
+.pointer {
+  cursor: pointer;
+}
+
+.full-width {
+  width: 100%;
+}
+
+// Ajustes para Angular Material
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-card {
+  margin-bottom: 20px;
+}
+
+// Loader
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

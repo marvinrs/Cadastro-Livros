@@ -1,0 +1,54 @@
+[90m= [39m[34;4mIlluminate\Database\Eloquent\Collection[39;24m {#6110
+    [34mall[39m: [
+      [34;4mApp\Models\Livro[39;24m {#6115
+        [34mcodl[39m: [35m1[39m,
+        [34mtitulo[39m: "[32mDom Casmurro[39m",
+        [34meditora[39m: "[32mEditora Globo[39m",
+        [34medicao[39m: [35m1[39m,
+        [34mano_publicacao[39m: "[32m1899[39m",
+        [34mvalor[39m: "[32m45.90[39m",
+        [34mcreated_at[39m: "[32m2025-05-28 05:44:42[39m",
+        [34mupdated_at[39m: "[32m2025-05-28 05:44:42[39m",
+        [34mautores[39m: [34;4mIlluminate\Database\Eloquent\Collection[39;24m {#6109
+          [34mall[39m: [
+            [34;4mApp\Models\Autor[39;24m {#6159
+              [34mcod_au[39m: [35m1[39m,
+              [34mnome[39m: "[32mMachado de Assis[39m",
+              [34mcreated_at[39m: "[32m2025-05-28 05:43:49[39m",
+              [34mupdated_at[39m: "[32m2025-05-28 05:43:49[39m",
+              [34mpivot[39m: [34;4mIlluminate\Database\Eloquent\Relations\Pivot[39;24m {#6108
+                [34mlivro_codl[39m: [35m1[39m,
+                [34mautor_cod_au[39m: [35m1[39m,
+              },
+            },
+          ],
+        },
+        [34massuntos[39m: [34;4mIlluminate\Database\Eloquent\Collection[39;24m {#6161
+          [34mall[39m: [
+            [34;4mApp\Models\Assunto[39;24m {#6163
+              [34mcod_as[39m: [35m1[39m,
+              [34mdescricao[39m: "[32mRomance[39m",
+              [34mcreated_at[39m: "[32m2025-05-28 05:44:18[39m",
+              [34mupdated_at[39m: "[32m2025-05-28 05:44:18[39m",
+              [34mpivot[39m: [34;4mIlluminate\Database\Eloquent\Relations\Pivot[39;24m {#6164
+                [34mlivro_codl[39m: [35m1[39m,
+                [34massunto_cod_as[39m: [35m1[39m,
+              },
+            },
+            [34;4mApp\Models\Assunto[39;24m {#6166
+              [34mcod_as[39m: [35m2[39m,
+              [34mdescricao[39m: "[32mFicção[39m",
+              [34mcreated_at[39m: "[32m2025-05-28 05:44:28[39m",
+              [34mupdated_at[39m: "[32m2025-05-28 05:44:28[39m",
+              [34mpivot[39m: [34;4mIlluminate\Database\Eloquent\Relations\Pivot[39;24m {#6162
+                [34mlivro_codl[39m: [35m1[39m,
+                [34massunto_cod_as[39m: [35m2[39m,
+              },
+            },
+          ],
+        },
+        +[1mvalor_formatado[22m: "[32mR$ 45,90[39m",
+      },
+    ],
+  }
+

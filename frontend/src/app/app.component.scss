@@ -1,0 +1,38 @@
+.toolbar {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sidenav-container {
+  position: absolute;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.sidenav {
+  width: 250px;
+  background-color: #f5f5f5;
+
+  .mat-list-item.active {
+    background-color: rgba(63, 81, 181, 0.1);
+    color: #3f51b5;
+  }
+}
+
+.content {
+  background-color: #fafafa;
+  min-height: 100%;
+}
+
+@media (max-width: 768px) {
+  .sidenav {
+    width: 200px;
+  }
+}

@@ -1,0 +1,81 @@
+<div class="container-fluid">
+  <div class="row mb-3">
+    <div class="col">
+      <h1>Livros</h1>
+    </div>
+    <div class="col-auto">
+      <button mat-raised-button color="primary" (click)="novo()">
+        <mat-icon>add</mat-icon>
+        Novo Livro
+      </button>
+    </div>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <mat-form-field class="w-100">
+        <mat-label>Pesquisar</mat-label>
+        <input matInput (keyup)="aplicarFiltro($event)" placeholder="Digite para pesquisar...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort>
+          
+          <ng-container matColumnDef="codl">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Código </th>
+            <td mat-cell *matCellDef="let livro"> {{livro.codl}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="titulo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Título </th>
+            <td mat-cell *matCellDef="let livro"> {{livro.titulo}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="editora">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Editora </th>
+            <td mat-cell *matCellDef="let livro"> {{livro.editora}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor </th>
+            <td mat-cell *matCellDef="let livro"> {{livro.valor_formatado}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="autores">
+            <th mat-header-cell *matHeaderCellDef> Autores </th>
+            <td mat-cell *matCellDef="let livro">
+              <span *ngFor="let autor of livro.autores; let last = last">
+                {{autor.nome}}<span *ngIf="!last">, </span>
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef> Ações </th>
+            <td mat-cell *matCellDef="let livro">
+              <button mat-icon-button color="primary" (click)="editar(livro)" matTooltip="Editar">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="excluir(livro)" matTooltip="Excluir">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="6">Nenhum livro encontrado</td>
+          </tr>
+        </table>
+      </div>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" 
+                     [pageSize]="10"
+                     showFirstLastButtons>
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

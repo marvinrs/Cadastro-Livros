@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="row mb-3">
+    <div class="col">
+      <h1>Autores</h1>
+    </div>
+    <div class="col-auto">
+      <button mat-raised-button color="primary" (click)="abrirFormulario()">
+        <mat-icon>add</mat-icon>
+        Novo Autor
+      </button>
+    </div>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <mat-form-field class="w-100">
+        <mat-label>Pesquisar</mat-label>
+        <input matInput (keyup)="aplicarFiltro($event)" placeholder="Digite para pesquisar...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <div class="table-responsive">
+        <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+        
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="cod_au">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Código </th>
+            <td mat-cell *matCellDef="let autor"> {{autor.cod_au}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="nome">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+            <td mat-cell *matCellDef="let autor"> {{autor.nome}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="livros_count">
+            <th mat-header-cell *matHeaderCellDef> Livros </th>
+            <td mat-cell *matCellDef="let autor"> {{autor.livros_count || 0}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef> Ações </th>
+            <td mat-cell *matCellDef="let autor">
+              <button mat-icon-button color="primary" 
+                      (click)="abrirFormulario(autor)" 
+                      matTooltip="Editar">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" 
+                      (click)="excluir(autor)" 
+                      matTooltip="Excluir"
+                      [disabled]="autor.livros_count > 0">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">Nenhum autor encontrado</td>
+          </tr>
+        </table>
+      </div>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" 
+                     [pageSize]="10"
+                     showFirstLastButtons>
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>
