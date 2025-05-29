@@ -1,106 +1,182 @@
-Sistema de Cadastro de Livros 📚
-Sistema completo de gerenciamento de livros desenvolvido com Laravel 10 e Angular 14+, utilizando Docker para orquestração de serviços.
+# 📚 Sistema de Cadastro de Livros
 
-🚀 Iniciando o Projeto
-⚠️ Atenção: Antes de iniciar, verifique se você possui o Docker e Docker Compose instalados e atualizados corretamente.
+Sistema web completo para gerenciamento de livros, autores e assuntos, desenvolvido com Laravel 10 (PHP 8.2) e Angular 14+, utilizando Docker para orquestração dos serviços.
 
-Execute o Docker Compose:
+---
 
-bash
-Copiar
-Editar
+## 🚀 Tecnologias Utilizadas
+
+### Backend
+- PHP 8.2 com Laravel 10
+- PostgreSQL 15 (banco de dados principal)
+- Redis (cache e filas)
+- Docker (containerização)
+- PHPUnit/Pest (testes automatizados)
+- Nginx (proxy reverso)
+- Supervisor (gerenciamento de processos)
+
+### Frontend
+- Angular 14+ com Angular CLI
+- Angular Material (componentes UI)
+- Bootstrap 5 (estilização adicional)
+- TypeScript
+- RxJS (programação reativa)
+
+---
+
+## 📋 Funcionalidades
+
+- ✅ CRUD completo de livros, autores e assuntos
+- 🔁 Relacionamentos N:N entre livros/autores e livros/assuntos
+- 📊 Geração de relatórios em PDF e Excel
+- 🔍 Busca avançada com filtros
+- 💰 Formatação monetária em Real (R$)
+- 📱 Interface responsiva
+- ♻️ Cache com Redis
+- 📝 Auditoria de alterações
+- 🚦 Validações robustas
+- 🌐 API RESTful documentada (Swagger/OpenAPI)
+
+---
+
+## 🛠️ Instalação e Configuração
+
+### Pré-requisitos
+- Docker e Docker Compose
+- Git
+
+### Passo a passo
+
+```bash
+git clone https://github.com/seu-usuario/cadastro-livros.git
+cd cadastro-livros
+cp backend/.env.example backend/.env
 docker-compose up -d
-Aguarde a inicialização dos serviços e acesse os sistemas:
+docker-compose exec api php artisan migrate
+docker-compose exec api php artisan key:generate
+docker-compose exec api php artisan db:seed
+```
 
-Frontend Angular: http://localhost:4200
+### Acesse os sistemas
 
-API Laravel: http://localhost:8000
+- Frontend Angular: http://localhost
+- API Laravel: http://localhost/api
+- pgAdmin: http://localhost:5050
+- Email: admin@cadastrolivros.com
+- Senha: admin123
 
-pgAdmin: http://localhost:5050
+---
 
-✅ Verificação e Testes
-🔧 Testes Automatizados
-Laravel (Backend - PHPUnit)
-Acesse o container do Laravel:
+## 🧪 Testes
 
-bash
-Copiar
-Editar
-docker exec -it <nome_container_laravel> bash
-Execute os testes:
+### Backend (Laravel - PHPUnit)
 
-bash
-Copiar
-Editar
-php artisan test
-# ou
-vendor/bin/phpunit
-🧪 Dica: Certifique-se de que o banco de testes está configurado corretamente no .env.testing.
+```bash
+docker-compose exec api php artisan test
+```
 
-Angular (Frontend - Karma/Jasmine)
-Acesse o container do Angular (ou execute localmente se preferir):
+### Frontend (Angular - Karma/Jasmine)
 
-bash
-Copiar
-Editar
-docker exec -it <nome_container_angular> bash
-Execute os testes:
+```bash
+docker-compose exec frontend npm test
+```
 
-bash
-Copiar
-Editar
-ng test
-🎯 Observação: Os testes rodam em modo watch por padrão. Para um relatório simples:
+### Testes de Integração
 
-bash
-Copiar
-Editar
-ng test --watch=false --browsers=ChromeHeadless
-⚠️ Possíveis Erros Comuns
-❌ Erro 502 ou tela em branco no Angular:
+```bash
+docker-compose exec api php artisan test --testsuite=Feature
+```
 
-Verifique se o frontend foi corretamente compilado e se o container está em execução.
+---
 
-Rode docker logs <nome_do_container> para investigar.
+## 🧠 Modelagem de Dados
 
-❌ API Laravel retornando 500 ou rota não encontrada:
+### Diagrama ER
 
-Verifique permissões das pastas:
+```
+AUTORES ─── LIVRO_AUTOR ─── LIVROS ─── LIVRO_ASSUNTO ─── ASSUNTOS
+```
 
-bash
-Copiar
-Editar
-chmod -R 775 storage bootstrap/cache
-Execute:
+### Views principais
 
-bash
-Copiar
-Editar
-php artisan migrate
-❌ Banco de dados indisponível:
+- `vw_relatorio_livros`: Dados completos para relatório
+- `vw_estatisticas`: Estatísticas gerais
+- `vw_livros_completo`: Livros com autores/assuntos concatenados
 
-Confirme que o container postgres está ativo.
+### Procedures e Triggers
 
-Verifique as credenciais no .env.
+- `sp_inserir_livro_completo`: Insere livro com relacionamentos
+- `fn_atualizar_livro_completo`: Atualiza livro e relacionamentos
+- `tr_auditoria_*`: Auditoria automática
+- `tr_update_timestamp_*`: Atualização automática de timestamps
 
-❌ Erro de conexão Redis:
+---
 
-Verifique se o serviço Redis está em execução e corretamente referenciado em CACHE_DRIVER.
+## 🔐 Segurança
 
-🛠️ Tecnologias Utilizadas
-Backend: Laravel 10 (PHP 8.2)
+- Validação em múltiplas camadas
+- Proteção contra SQL Injection (Eloquent ORM)
+- CSRF Protection
+- Rate Limiting
+- Sanitização de inputs
+- Headers de segurança via Nginx
 
-Frontend: Angular 14+
+---
 
-Banco de Dados: PostgreSQL 15
+## 🚀 Performance
 
-Cache: Redis
+- Redis para cache e filas
+- Índices otimizados
+- Lazy loading de relacionamentos
+- Paginação server-side
+- Compressão de assets
+- CDN para bibliotecas externas
 
-Orquestração: Docker e Docker Compose
+---
 
-📦 Extras
-pgAdmin para administração visual do PostgreSQL
+## 🔧 Endpoints da API
 
-Hot reload ativado no Angular
+Consulte `/api/documentation` (Swagger) para a documentação completa.
 
-Volumes Docker para persistência de dados
+---
+
+## 🧭 Estrutura do Projeto
+
+```
+cadastro-livros/
+├── backend/         # API Laravel
+├── frontend/        # Angular
+├── nginx/           # Configurações do Nginx
+├── database/        # Scripts SQL
+└── docker-compose.yml
+```
+
+---
+
+## 🤝 Contribuindo
+
+1. Fork o projeto
+2. Crie sua branch (`git checkout -b feature/NovaFuncionalidade`)
+3. Commit suas alterações (`git commit -m 'feat: Adiciona nova funcionalidade'`)
+4. Push na branch (`git push origin feature/NovaFuncionalidade`)
+5. Crie um Pull Request
+
+---
+
+## 📄 Licença
+
+Este projeto está licenciado sob a Licença MIT.
+
+---
+
+## 👥 Autores
+
+- Marvin Santos - Desenvolvimento inicial
+
+---
+
+## 🙏 Agradecimentos
+
+- Comunidade Laravel
+- Equipe do Angular
+- Comunidade Docker
