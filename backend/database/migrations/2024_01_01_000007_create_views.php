@@ -3,14 +3,11 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
-return new class extends Migration
-{
-    public function up(): void
-    {
-        // View principal para relatório
+return new class extends Migration {
+    public function up(): void {
         DB::statement("
             CREATE OR REPLACE VIEW vw_relatorio_livros AS
-            SELECT 
+            SELECT
                 a.cod_au,
                 a.nome AS nome_autor,
                 l.codl,
@@ -28,10 +25,9 @@ return new class extends Migration
             ORDER BY a.nome, l.titulo
         ");
 
-        // View de estatísticas
         DB::statement("
             CREATE OR REPLACE VIEW vw_estatisticas AS
-            SELECT 
+            SELECT
                 COUNT(DISTINCT l.codl) AS total_livros,
                 COUNT(DISTINCT a.cod_au) AS total_autores,
                 COUNT(DISTINCT ass.cod_as) AS total_assuntos,
@@ -47,8 +43,7 @@ return new class extends Migration
         ");
     }
 
-    public function down(): void
-    {
+    public function down(): void {
         DB::statement('DROP VIEW IF EXISTS vw_estatisticas');
         DB::statement('DROP VIEW IF EXISTS vw_relatorio_livros');
     }
