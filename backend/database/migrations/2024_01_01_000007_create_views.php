@@ -5,8 +5,14 @@ use Illuminate\Support\Facades\DB;
 
 return new class extends Migration {
     public function up(): void {
+        $driver = config('database.default');
+        $createOrReplace = $driver === 'pgsql' ? 'CREATE OR REPLACE' : 'CREATE';
+
+        // Some engines (e.g., SQLite) don't support ORDER BY in view definitions
+        $orderBy = $driver === 'pgsql' ? 'ORDER BY a.nome, l.titulo' : '';
+
         DB::statement("
-            CREATE OR REPLACE VIEW vw_relatorio_livros AS
+            {$createOrReplace} VIEW vw_relatorio_livros AS
             SELECT
                 a.cod_au,
                 a.nome AS nome_autor,
@@ -22,11 +28,11 @@ return new class extends Migration {
             INNER JOIN livros l ON la.livro_codl = l.codl
             LEFT JOIN livro_assunto las ON l.codl = las.livro_codl
             LEFT JOIN assuntos ass ON las.assunto_cod_as = ass.cod_as
-            ORDER BY a.nome, l.titulo
+            {$orderBy}
         ");
 
         DB::statement("
-            CREATE OR REPLACE VIEW vw_estatisticas AS
+            {$createOrReplace} VIEW vw_estatisticas AS
             SELECT
                 COUNT(DISTINCT l.codl) AS total_livros,
                 COUNT(DISTINCT a.cod_au) AS total_autores,
